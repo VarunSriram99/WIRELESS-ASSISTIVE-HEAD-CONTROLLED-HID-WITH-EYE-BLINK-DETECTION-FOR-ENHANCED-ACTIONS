@@ -15,6 +15,6 @@ Please find in the HW/code Section
 
 ## Collaborators
 
-_VarunSriram99_
-_afc270299_
-_NDHARANIDEVI_
+_VarunSriram99_  
+_afc270299_  
+_NDHARANIDEVI_  
