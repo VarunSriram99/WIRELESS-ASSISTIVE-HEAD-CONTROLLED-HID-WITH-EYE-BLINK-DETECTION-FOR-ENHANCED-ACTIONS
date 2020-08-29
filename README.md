@@ -11,7 +11,8 @@ This is an enhanced version of the previous Head Controlled Mouse with Wireless 
 
 ## Code
 
-Please find in the HW/code Section
+Please find in the HW/bluetooth_HCM.ino 
+This is heavily commented (Too much comments if you may) so viewers discretion advised.😜
 
 ## Collaborators
 
