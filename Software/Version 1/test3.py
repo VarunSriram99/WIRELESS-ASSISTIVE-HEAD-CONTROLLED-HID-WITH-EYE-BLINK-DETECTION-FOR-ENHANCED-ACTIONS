@@ -48,6 +48,8 @@ class GridDemo(QWidget):
         super().__init__()
         self.win = Window('Left-Click Mode')
         self.center()
+        flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(flags)
         self.setWindowTitle("GUI Window")
         self.setWindowIcon(QtGui.QIcon("Python-symbol.jpg"))
         self.setStyleSheet("background-color: black")
