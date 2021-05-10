@@ -16,12 +16,13 @@ from pynput.keyboard import Controller as KController
 from pynput.keyboard import Key
 import time
 
-mouse = Controller()
+mouse = Controller()        #for controlling mouse cursor
 keyboard=KController()
 w=0
 h=0
-flag = True
+flag = True         #to execute threads one at a time
 
+#This function calculates EAR values
 def eye_aspect_ratio(eye):
     A = dist.euclidean(eye[1], eye[5])
     B = dist.euclidean(eye[2], eye[4])
@@ -29,22 +30,25 @@ def eye_aspect_ratio(eye):
     ear = (A + B) / (2.0 * C)
     return ear
 
+#This class represents the secondary status window
 class Window(QWidget):
     def __init__(self, tt):
         super().__init__()
         self.setWindowTitle("Mode Window")
         self.setWindowIcon(QtGui.QIcon("Python-symbol.jpg"))
-        label = QtWidgets.QLabel(self)
+        label = QtWidgets.QLabel(self)          #label represents window's text
         label.setText(tt)
         label.setFont(QtGui.QFont('Arial', 20))
-        label.adjustSize()
+        label.adjustSize()          #window size depends on text length
         label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
-        self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
+        self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)       #disables mouse events on window
         self.setStyleSheet("color:black; background-color: white;")
         self.setWindowOpacity(0.60)
         flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         self.setWindowFlags(flags)
         self.show()
+        
+        #To position the window above taskbar on the bottom right corner
         ab = QDesktopWidget().screenGeometry()
         width = self.frameGeometry().width()
         height = self.frameGeometry().height()
@@ -56,37 +60,40 @@ class Window(QWidget):
         t_h = dw.screenGeometry().height() - dw.availableGeometry().height()
         self.move(ab.width()-width, dw.screenGeometry().height()-t_h-height)
 
-
+        
+#This class represents the primary GUI window
 class GridDemo(QWidget):
     def __init__(self):
         super().__init__()
-        self.win = Window('Left-Click Mode')
+        self.win = Window('Left-Click Mode')        #instantiating the status window class
         self.center()
         flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         self.setWindowFlags(flags)
         self.setWindowTitle("GUI Window")
         self.setWindowIcon(QtGui.QIcon("Python-symbol.jpg"))
         self.setStyleSheet("background-color: black")
-        values = ['Left-Click', 'No-Click', 'Hover', 'Double-Click', '', 'Right-Click', 'Scroll', 'On-Screen Keyboard', 'Drag']
+        values = ['Left-Click', 'No-Click', 'Hover', 'Double-Click', '', 'Right-Click', 'Scroll', 'On-Screen Keyboard', 'Drag']     #represents each button on GUI
         positions = [(r, c) for r in range(4) for c in range(3)]
         layout = QGridLayout()
         self.setLayout(layout)
-        for positions, value in zip(positions, values):
+        for positions, value in zip(positions, values):     #for each button in the grid,
             self.button = QPushButton(value)
             self.button.setStyleSheet("QPushButton{color:black; background-color : white; font-size: 17px; }QPushButton::pressed{background-color : #C0C0C0;}")
             self.button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             layout.addWidget(self.button, *positions)
-            self.button.clicked.connect(self.btnClicked)
+            self.button.clicked.connect(self.btnClicked)    #if clicked, call btnClicked()
+    
+    #This function is used to bind actions to buttons on the grid when clicked
     def btnClicked(self):
         global flag
         sender = self.sender()
-        if sender.text() == "Left-Click":
-            self.close()
+        if sender.text() == "Left-Click":       #to identify the clicked button
+            self.close()        #closes primary window
             self.win = Window('Left-Click Mode')
-            flag = False
+            flag = False        #stop execution of current thread
             time.sleep(0.3)
             flag = True
-            left = threading.Thread(target=left_click, daemon=True)
+            left = threading.Thread(target=left_click, daemon=True)         #create a new thread for executing left_click()
             left.start()
         elif sender.text() == "No-Click":
             self.close()
@@ -98,7 +105,7 @@ class GridDemo(QWidget):
             nc.start()
         elif sender.text() == "On-Screen Keyboard":
             self.close()
-            with keyboard.pressed(Key.cmd):
+            with keyboard.pressed(Key.cmd):         #to close the keyboard, if user clicks cmd+ctrl+o
                 with keyboard.pressed(Key.ctrl):
                     keyboard.press('o')
                     keyboard.release('o')
@@ -142,6 +149,8 @@ class GridDemo(QWidget):
             flag = True
             dr = threading.Thread(target=drag, daemon=True)
             dr.start()
+    
+    #This function is used to center the primary gui window
     def center(self):
         ab = QDesktopWidget().screenGeometry()
         w = ab.width()*0.3
@@ -150,16 +159,20 @@ class GridDemo(QWidget):
         x = 0.5*w
         y = 0.5*h
         self.move((ab.width()/2)-x,(ab.height()/2)-y)
+        
+#This function performs no actions and runs till flag becomes false        
 def no_click():
     while True:
         global flag
-        if(flag==False):
+        if(flag==False):        #to stop execution when another mouse mode is selected
             print("Exited no click")
             break
         time.sleep(0.25)
+        
+#This function performs a left click action        
 def left_click():
     print("left click")
-    prevx = -1
+    prevx = -1      #to detect cursor's deviations
     prevy = -1
     count=0
     while True:
@@ -170,7 +183,7 @@ def left_click():
         #print("Entered loop")
         x,y=mouse.position
         #print("("+str(x)+","+str(y)+")")
-        if (x<=prevx+5 and x>=prevx-5 and y<=prevy+5 and y>=prevy-5):
+        if (x<=prevx+5 and x>=prevx-5 and y<=prevy+5 and y>=prevy-5):       #if there is a considerable cursor movement
             count=count+1
             if(count>=3):
                 mouse.click(Button.left)
@@ -181,6 +194,8 @@ def left_click():
         prevx=x
         prevy=y
         time.sleep(0.25)
+        
+#This function performs a right click action        
 def right_click():
     print("right click")
     prevx = -1
@@ -205,6 +220,8 @@ def right_click():
         prevx=x
         prevy=y
         time.sleep(0.25)
+        
+#This function performs two consecutive left clicks         
 def double_click():
     prevx = -1
     prevy = -1
@@ -228,6 +245,8 @@ def double_click():
         prevx=x
         prevy=y
         time.sleep(0.25)
+        
+#This function performs a left click with extended delay to hover        
 def hover():
     prevx = -1
     prevy = -1
@@ -251,11 +270,13 @@ def hover():
         prevx=x
         prevy=y
         time.sleep(0.25)
+        
+#This function alternates between mouse press & release to perform a mouse drag        
 def drag():
     prevx = -1
     prevy = -1
     count=0
-    drag_on=0
+    drag_on=0       #to alternate between mouse's press and release
     while True:
         global flag
         if (flag==False):
@@ -278,6 +299,8 @@ def drag():
         prevx=x
         prevy=y
         time.sleep(0.25)
+        
+#This function uses the mouse middle button to perform scrolling        
 def scroll():
     prevx = -1
     prevy = -1
@@ -303,24 +326,24 @@ def scroll():
         time.sleep(0.25)
 
 
-
+#This function centers the mouse cursor and selects left click mode each time the gui pops up
 def winCheck():
     global w
     global h
     while True:
         check = demo.isActiveWindow()
         #print("Active window : " + str(check))
-        if (check):
+        if (check):         #if window is actively in foreground
             print(threading.active_count())
             xy = QDesktopWidget().screenGeometry()
             x=int(xy.width())
             y=int(xy.height())
-            mouse.position = (int(x/2),int(y/2))
+            mouse.position = (int(x/2),int(y/2))        #centers the mouse cursor
             global flag
             flag = False
             time.sleep(0.3)
             flag = True
-            left = threading.Thread(target=left_click,daemon=True)
+            left = threading.Thread(target=left_click,daemon=True)          #creates a thread for left click operation
             left.start()
             while (demo.isActiveWindow()):
                 time.sleep(1)
@@ -444,10 +467,10 @@ def wake(demo):
             vs.stop()
 
 if __name__ == "__main__":
-    left = threading.Thread(target=left_click, daemon=True)
+    left = threading.Thread(target=left_click, daemon=True)         #creates a thread for left click operation initially
     left.start()
     app = QApplication(sys.argv)
-    demo = GridDemo()
+    demo = GridDemo()       #instantiates the primary gui window
     demo.show()
     wc = threading.Thread(target=winCheck,daemon=True)
     wc.start()
