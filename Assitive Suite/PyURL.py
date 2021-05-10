@@ -5,7 +5,7 @@ import urllib.request
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QSizePolicy, QApplication, QDesktopWidget
 
-Switch1 = 0
+Switch1 = 0         #to alternate between switch1 On/Off states
 Switch2 = 0
 Switch3 = 0
 
@@ -38,17 +38,17 @@ class GridDemo(QWidget):
         sender = self.sender()
         if sender.text() == "Switch 1":         #to identify the clicked button
             print("hello")
-            if(Switch1 == 0):
+            if(Switch1 == 0):                   #Switch ON condition
                 print("hello")
                 #weburl = http.request("GET","http://192.168.1.39/26/on")
                 r = requests.get("http://192.168.1.39/26/on")
                 st = int(r.status_code)
                 print("hello")
-            else:
+            else:                               #Switch OFF condition
                 r = requests.get("http://192.168.1.39/26/off")
                 st = int(r.status_code)
             if(st == 200):
-                Switch1 = 1 - Switch1
+                Switch1 = 1 - Switch1           #to alternate between ON/OFF state
         elif sender.text() == "Switch 2":
             print("hello")
             if(Switch2 == 0):
