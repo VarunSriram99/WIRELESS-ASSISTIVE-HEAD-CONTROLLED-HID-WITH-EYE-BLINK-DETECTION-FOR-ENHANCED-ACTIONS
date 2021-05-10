@@ -9,32 +9,34 @@ Switch1 = 0
 Switch2 = 0
 Switch3 = 0
 
+#This class represents the primary GUI window
 class GridDemo(QWidget):
     def __init__(self):
         super().__init__()
         self.center()
-        self.setWindowTitle("Assistive Suite")
+        self.setWindowTitle("Assistive Suite")      
         self.setWindowIcon(QtGui.QIcon("Python-symbol.jpg"))
         self.setStyleSheet("background-color: black")
-        values = ['Switch 1','Switch 2','Switch 3']
+        values = ['Switch 1','Switch 2','Switch 3']         #represents each button on GUI
         positions = [(r,c) for r in range(1) for c in range(3)]
         layout = QGridLayout()
         self.setLayout(layout)
 
-        for positions, value in zip(positions, values):
+        for positions, value in zip(positions, values):         #for each button in the grid,
             self.button = QPushButton(value)
             self.button.setStyleSheet("QPushButton{color:black; background-color : white; font-size: 17px; }QPushButton::pressed{background-color : #C0C0C0;}")
             self.button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             layout.addWidget(self.button, *positions)
-            self.button.clicked.connect(self.btnClicked)
+            self.button.clicked.connect(self.btnClicked)        #if clicked, call btnClicked()
 
+    #This function is used to bind actions to buttons on the grid when clicked
     def btnClicked(self):
         st = 0
         global Switch1
         global Switch2
         global Switch3
         sender = self.sender()
-        if sender.text() == "Switch 1":
+        if sender.text() == "Switch 1":         #to identify the clicked button
             print("hello")
             if(Switch1 == 0):
                 print("hello")
@@ -73,7 +75,8 @@ class GridDemo(QWidget):
                 st = int(r.status_code)
             if(st == 200):
                 Switch3 = 1 - Switch3
-
+                
+    #This function is used to center the primary gui window 
     def center(self):
         ab = QDesktopWidget().screenGeometry()
         w = ab.width()*0.3
@@ -85,6 +88,6 @@ class GridDemo(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    demo = GridDemo()
+    demo = GridDemo()       #instantiates the primary gui window
     demo.show()
     sys.exit(app.exec_())
