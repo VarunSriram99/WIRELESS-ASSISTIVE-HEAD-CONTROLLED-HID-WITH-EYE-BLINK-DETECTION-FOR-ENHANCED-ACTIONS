@@ -25,7 +25,7 @@ void loop(){
  Wire.beginTransmission(MPU_addr);
  Wire.write(0x45);  // starting with register 0x43 (GYRO_XOUT_L)
  Wire.endTransmission(false); //Now lets restart the transmission
- Wire.requestFrom(MPU_addr,14,true);  // request a total of 14 registers
+ Wire.requestFrom(MPU_addr,14);  // request a total of 14 registers
  //Hexadecimal Mumbo Jumbo coming up
  GyY=Wire.read()<<8|Wire.read();  // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
  GyZ=Wire.read()<<8|Wire.read();  // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
