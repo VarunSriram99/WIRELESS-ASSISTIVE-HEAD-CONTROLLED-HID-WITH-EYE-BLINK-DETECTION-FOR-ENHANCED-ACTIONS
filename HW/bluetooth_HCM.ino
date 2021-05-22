@@ -27,7 +27,7 @@ void loop(){
  Wire.write(0x43);  
  Wire.endTransmission(false);
  Wire.requestFrom(MPU_addr,14,true);  
- //Hexadecimal Mumbo Jumbo coming up
+
  GyY=Wire.read()<<8|Wire.read();  
  GyZ=Wire.read()<<8|Wire.read(); 
  vz = -(GyZ+100) / 200; //Cleanup
