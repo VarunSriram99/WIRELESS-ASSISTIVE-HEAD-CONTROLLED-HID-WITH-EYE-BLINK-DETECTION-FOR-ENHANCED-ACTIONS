@@ -184,7 +184,7 @@ def left_click():
         #print("Entered loop")
         x,y=mouse.position
         #print("("+str(x)+","+str(y)+")")
-        if (x<=prevx+5 and x>=prevx-5 and y<=prevy+5 and y>=prevy-5):       #if there is a considerable cursor movement
+        if (x<=prevx+5 and x>=prevx-5 and y<=prevy+5 and y>=prevy-5):       #if there is no considerable cursor movement
             count=count+1
             if(count>=3):
                 mouse.click(Button.left)
