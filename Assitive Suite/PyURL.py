@@ -1,7 +1,5 @@
 import sys
-import urllib3
 import requests
-import urllib.request
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QSizePolicy, QApplication, QDesktopWidget
 
