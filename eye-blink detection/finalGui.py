@@ -391,7 +391,6 @@ def wake(demo):
             break
 
         frame = vs.read()
-        frame = imutils.resize(frame, width=800)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         rects = detector(gray, 0)
