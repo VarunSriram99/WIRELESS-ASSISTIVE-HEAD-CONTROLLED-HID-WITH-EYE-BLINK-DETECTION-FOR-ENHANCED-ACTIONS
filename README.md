@@ -18,8 +18,9 @@ In honor of Arjun Aloshious, we pledge to carry forward his legacy, ensuring tha
 Rest in peace, dear Arjun. You will be deeply missed but never forgotten.
 
 ## The Design
-![](images/BT%20HCM.png)
 
+![](images/BT%20HCM.png)
+<img src="/images/BT HCM.jpg" alt="HCM High level design" title="HCM design">
 ## Components
 
 * __ESP32__
