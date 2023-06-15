@@ -1,18 +1,6 @@
 # WIRELESS-ASSISTIVE-HEAD-CONTROLLED-HID-WITH-EYE-BLINK-DETECTION-FOR-ENHANCED-ACTIONS
 This is an enhanced version of the previous Head Controlled Mouse with Wireless Bluetooth connectivity, eye-blink detection for mode selection and ergonomic design.
 
-
-
-Certainly! Here's an example of how you can write the dedication in your readme file:
-
-vbnet
-Copy code
-# Project Title
-
-[Project Description]
-
----
-
 ## In Loving Memory of Arjun Aloshious
 
 It is with a heavy heart that we dedicate this project to the memory of our dear friend and esteemed contributor, Arjun Aloshious. Arjun's significant contributions and unwavering positivity played an integral part in shaping this project into what it is today.
