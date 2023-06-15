@@ -19,8 +19,7 @@ Rest in peace, dear Arjun. You will be deeply missed but never forgotten.
 
 ## The Design
 
-![](images/BT%20HCM.png)
-<img src="/images/BT HCM.jpg" alt="HCM High level design" title="HCM design">
+![BT HCM High level design](images/BT%20HCM.png "BT HCM High level design")
 ## Components
 
 * __ESP32__
